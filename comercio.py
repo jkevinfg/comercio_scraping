@@ -60,6 +60,41 @@ def obtener_info(s_nota):
         ret_dict['titulo'] = None
         ret_dict['subtitulo'] = None
 
+    #cuerpo
+    try:
+        cuerpo = s_nota.find('div', attrs={'class': 'story-contents__content'}).section.find_all('p')
+        ret_dict['cuerpo'] = ''
+        if cuerpo:
+            for p in cuerpo:
+                print(p.get_text())
+                ret_dict['cuerpo'] = p.get_text() + ret_dict['cuerpo']
+        else:
+            ret_dict['cuerpo'] = None
+    except Exception as e:
+        print(f'Error {e}')
+
+
+    # fecha de publicacion y de actualizacion
+    try:
+        publicacion = s_nota.find('div',attrs={'class': 'story-contents__author-date'}).find_all('time')
+        if publicacion:
+            ret_dict['publicacion'] = publicacion[0].get('datetime')
+            ret_dict['actualizacion'] = publicacion[1].get_text()
+        else:
+            ret_dict['publicacion'] = None
+            ret_dict['actualizacion'] = None
+    except Exception as e:
+        print(f'Error {e}')
+
+
+
+
+
+
+
+
+
+
 
 
 
